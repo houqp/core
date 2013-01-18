@@ -197,7 +197,7 @@ var UserList = {
                 checked:checked,
                 oncheck:checkHandeler,
                 onuncheck:checkHandeler,
-                minWidth:100,
+                minWidth:100
             });
         }
         if ($(element).attr('class') == 'subadminsselect') {
@@ -232,7 +232,7 @@ var UserList = {
                 checked:checked,
                 oncheck:checkHandeler,
                 onuncheck:checkHandeler,
-                minWidth:100,
+                minWidth:100
             });
         }
     }
@@ -261,7 +261,7 @@ $(document).ready(function () {
         UserList.applyMultiplySelect($(element));
     });
 
-    $('td.remove>a').live('click', function (event) {
+    $('table').on('click', 'td.remove>a', function (event) {
         var row = $(this).parent().parent();
         var uid = $(row).attr('data-uid');
         $(row).hide();
@@ -269,7 +269,7 @@ $(document).ready(function () {
         UserList.do_delete(uid);
     });
 
-    $('td.password>img').live('click', function (event) {
+    $('table').on('click', 'td.password>img', function (event) {
         event.stopPropagation();
         var img = $(this);
         var uid = img.parent().parent().attr('data-uid');
@@ -297,11 +297,11 @@ $(document).ready(function () {
             img.css('display', '');
         });
     });
-    $('td.password').live('click', function (event) {
+    $('table').on('click', 'td.password', function (event) {
         $(this).children('img').click();
     });
 
-    $('select.quota, select.quota-user').live('change', function () {
+    $('select.quota, select.quota-user').on('change', function () {
         var select = $(this);
         var uid = $(this).parent().parent().parent().attr('data-uid');
         var quota = $(this).val();
@@ -320,7 +320,7 @@ $(document).ready(function () {
         $(select).data('previous', $(select).val());
     })
 
-    $('input.quota-other').live('change', function () {
+    $('input.quota-other').on('change', function () {
         var uid = $(this).parent().parent().parent().attr('data-uid');
         var quota = $(this).val();
         var select = $(this).prev();
@@ -356,7 +356,7 @@ $(document).ready(function () {
         }
     });
 
-    $('input.quota-other').live('blur', function () {
+    $('input.quota-other').on('blur', function () {
         $(this).change();
     })
 
@@ -389,7 +389,7 @@ $(document).ready(function () {
             {
                 username:username,
                 password:password,
-                groups:groups,
+                groups:groups
             },
             function (result) {
                 if (result.status != 'success') {
@@ -403,7 +403,7 @@ $(document).ready(function () {
     });
     // Handle undo notifications
     $('#notification').hide();
-    $('#notification .undo').live('click', function () {
+    $('#notification').on('click', '.undo', function () {
         if ($('#notification').data('deleteuser')) {
             $('tbody tr').filterAttr('data-uid', UserList.deleteUid).show();
             UserList.deleteCanceled = true;
