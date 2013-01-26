@@ -55,6 +55,18 @@ function progress($notification_code, $severity, $message, $message_code, $bytes
 }
 
 if($source) {
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, $source);
+	curl_setopt($ch, CURLOPT_NOBODY, true);
+	curl_setopt($ch, CURLOPT_HEADER, true);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+	$header = curl_exec($ch);
+	if (preg_match('/Content-Disposition:.*?filename="(.*)"/i', $header, $matches)) {
+		$filename = $matches[1];
+	}
+	curl_close($ch);
+
 	if(substr($source, 0, 8)!='https://' and substr($source, 0, 7)!='http://') {
 		OCP\JSON::error(array("data" => array( "message" => "Not a valid source" )));
 		exit();
